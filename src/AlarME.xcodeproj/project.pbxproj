@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D36534002722A70400FB087D /* DateTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36533FF2722A70400FB087D /* DateTime.swift */; };
+		D3C39D9A2726B0A20093EB95 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C39D992726B0A20093EB95 /* LogoView.swift */; };
+		D3C39D9F2726C0730093EB95 /* AddAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C39D9E2726C0730093EB95 /* AddAlarm.swift */; };
 		D3CABC062722961500FF694D /* AlarMEApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3CABC052722961500FF694D /* AlarMEApp.swift */; };
 		D3CABC082722961500FF694D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3CABC072722961500FF694D /* ContentView.swift */; };
 		D3CABC0A2722961600FF694D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3CABC092722961600FF694D /* Assets.xcassets */; };
@@ -33,9 +36,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D36533FF2722A70400FB087D /* DateTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTime.swift; sourceTree = "<group>"; };
+		D3C39D992726B0A20093EB95 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
+		D3C39D9E2726C0730093EB95 /* AddAlarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddAlarm.swift; sourceTree = "<group>"; };
 		D3CABC022722961500FF694D /* AlarME.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlarME.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3CABC052722961500FF694D /* AlarMEApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarMEApp.swift; sourceTree = "<group>"; };
-		D3CABC072722961500FF694D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D3CABC072722961500FF694D /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ContentView.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
 		D3CABC092722961600FF694D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D3CABC0C2722961600FF694D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D3CABC0E2722961600FF694D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -95,11 +101,14 @@
 		D3CABC042722961500FF694D /* AlarME */ = {
 			isa = PBXGroup;
 			children = (
+				D36533FF2722A70400FB087D /* DateTime.swift */,
 				D3CABC052722961500FF694D /* AlarMEApp.swift */,
 				D3CABC072722961500FF694D /* ContentView.swift */,
+				D3C39D9E2726C0730093EB95 /* AddAlarm.swift */,
 				D3CABC092722961600FF694D /* Assets.xcassets */,
 				D3CABC0E2722961600FF694D /* Info.plist */,
 				D3CABC0B2722961600FF694D /* Preview Content */,
+				D3C39D992726B0A20093EB95 /* LogoView.swift */,
 			);
 			path = AlarME;
 			sourceTree = "<group>";
@@ -260,6 +269,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3CABC082722961500FF694D /* ContentView.swift in Sources */,
+				D3C39D9A2726B0A20093EB95 /* LogoView.swift in Sources */,
+				D3C39D9F2726C0730093EB95 /* AddAlarm.swift in Sources */,
+				D36534002722A70400FB087D /* DateTime.swift in Sources */,
 				D3CABC062722961500FF694D /* AlarMEApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

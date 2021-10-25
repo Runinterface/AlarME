@@ -1,63 +1,126 @@
-//
-//  ContentView.swift
-//  AlarME
-//
-//  Created by Runinterface on 22.10.2021.
-//
+    //  ContentView.swift
+    //  AlarME
+    //
+    //  Created by Runinterface on 22.10.2021.
+    //
 
-import SwiftUI
+    import SwiftUI
 
-struct ContentView: View {
-    let timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
-
-
-    func getDateTime(getData: Bool) -> String {
-        let date = Date()
-        let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: date)
-        var minutes = calendar.component(.minute, from: date)
-        if minutes < 10 {
-         let strMinutes = String(minutes)
-         let newMinutes = ("0\(strMinutes)")
-         var minutes = Int(newMinutes)
-        } 
-        let dateFormatt = DateFormatter()
-        dateFormatt.dateFormat = "dd.MM.yyyy"
-        let todaysDate = dateFormatt.string(from: date)
-        if getData == true {
-            return("\(todaysDate)")
-        }
-        else {
-            return("\(hour):\(minutes)")
-        }
+    struct AlarmItems: Identifiable, Codable {
+        var id = UUID()
+        let name: String
+        let date: String
+        let time: String
+        let type: String
+        
     }
-//    @State var newDate = Date()
-//    @State var newTime = Date()
     
-    var body: some View {
-        var newTime = getDateTime(getData: false)
-        var newDate = getDateTime(getData: true)
-        VStack {
-            Text("\(newTime)")
-//                .position(x: 200, y: -330)
-                .font(.title)
-                .frame(maxHeight: 30)
-            Text("\(newDate)")
-//                .position(x: 200, y: -320)
-                .font(.title3)
-                .frame(maxHeight: 30)
-            List {
-                /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Content@*/Text("Content")/*@END_MENU_TOKEN@*/
+    class Alarm: ObservableObject {
+        @Published var items = [AlarmItems]() {
+            didSet {
+                let encoder = JSONEncoder()
+                if let encoded = try? encoder.encode(items) {
+                    UserDefaults.standard.set(encoded, forKey: "Items")
+                }
             }
         }
-//        .background(SwiftUI.Color.blue.edgesIgnoringSafeArea(.all))
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-            .previewDevice("iPhone 12")
-            
+        init() {
+            if let items = UserDefaults.standard.data(forKey: "Items") {
+                let decoder = JSONDecoder()
+                if let decoded = try? decoder.decode([AlarmItems].self, from: items) {
+                    self.items = decoded
+                    return
+                }
+            }
+        }
     }
-}
-}
+
+
+    
+    
+    struct ContentView: View {
+        @State private var showingAddAlarm = false
+        @ObservedObject var alarms = Alarm()
+        @State var newDate = Date()
+        let timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
+        
+            func getDateTime(getData: Bool) -> String {
+                let calendar = Calendar.current
+                let hour = calendar.component(.hour, from: newDate)
+                let minutes = calendar.component(.minute, from: newDate)
+                let dateFormatt = DateFormatter()
+                dateFormatt.dateFormat = "dd.MM.yyyy"
+                let todaysDate = dateFormatt.string(from: date)
+                if getData == true {
+                    return("\(todaysDate)")
+                }
+                else {
+                    return("\(hour):\(minutes)")
+                }
+            }
+        func removeItems(as offsets: IndexSet){
+            alarms.items.remove(atOffsets: offsets)
+        }
+        
+        var body: some View {
+            VStack {
+                Text("\(getDateTime(getData: false))")
+                    .onReceive(timer, perform: { _ in
+                        self.newDate = Date()
+                    })
+    //                .position(x: 200, y: -330)
+                    .font(.title)
+                    .frame(maxHeight: 30)
+                Text("\(getDateTime(getData: true))")
+                    .onReceive(timer, perform: { _ in
+                        self.newDate = Date()
+                    })
+    //                .position(x: 200, y: -320)
+                    .font(.title3)
+                    .frame(maxHeight: 30)
+                NavigationView {
+                    List {
+                        ForEach (alarms.items) { item in
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(item.name)
+                                        .font(.headline)
+                                    Text(item.type)
+                                }
+                                Spacer()
+                                VStack {
+                                    Text(item.time)
+                                        .font(.headline)
+                                    Text(item.date)
+                                }
+                            }
+//                            item in Text(item.name)
+                        }
+                        .onDelete(perform: removeItems)
+                    }
+                    .navigationTitle("Будильники")
+                    .font(.title3)
+                }
+                Button(action: {
+                    self.showingAddAlarm = true
+//                    self.alarms.items.append(Alarm)
+                } ) {
+                    Image(systemName: "plus")
+                        .resizable()
+                        .frame(width: 20, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .sheet(isPresented: $showingAddAlarm) {
+                            AddAlarm(alarms: self.alarms)
+                        }
+                }
+            }
+    }
+
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            ContentView()
+                .previewDevice("iPhone 12")
+                
+        }
+    }
+    }
+    
