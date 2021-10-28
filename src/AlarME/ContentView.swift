@@ -103,11 +103,13 @@
                 }
                 Button(action: {
                     self.showingAddAlarm = true
+                    
 //                    self.alarms.items.append(Alarm)
                 } ) {
                     Image(systemName: "plus")
                         .resizable()
                         .frame(width: 20, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .padding(.bottom, 30)
                         .sheet(isPresented: $showingAddAlarm) {
                             AddAlarm(alarms: self.alarms)
                         }
