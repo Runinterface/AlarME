@@ -12,18 +12,32 @@ struct AddAlarm: View {
     @ObservedObject var alarms: Alarm
     @State private var name = ""
     @State private var type = "Normal"
-    @State private var time = ""
-    @State private var date = ""
+    @State private var time = Date()
+    @State private var dayRepeat = ""
+    @State private var status = true
     
     let types = ["Normal", "QRCode"]
+    let dayOfWeek = ["Понедельник", "Вторник", "Среда", "Чертверг", "Пятница", "Суббота", "Воскресенье"]
     
     var body: some View {
         NavigationView {
             Form {
+                DatePicker("Время", selection: $time, displayedComponents:
+                            .hourAndMinute)
+                    .labelsHidden()
+//                    .padding(100)
+                    .frame(width: 300, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 TextField("Название", text: $name)
                 Picker("Тип", selection: $type) {
                     ForEach(self.types, id: \.self){
                         Text($0)
+                    }
+                }
+                if (self.type == "QRCode") {
+                    Picker("Выберите код", selection: $type) {
+                        ForEach(self.types, id: \.self){
+                            Text($0)
+                        }
                     }
                 }
 //                Picker("Тип", selection: $type) {
@@ -31,14 +45,20 @@ struct AddAlarm: View {
 //                        Text($0)
 //                    }
 //                }
-                TextField("Время", text: $time)
-                    .keyboardType(.numberPad)
-                TextField("Дата", text: $date)
-                    .keyboardType(.numberPad)
+//                TextField("Время", text: $time)
+//                    .keyboardType(.numberPad)
+
+                Picker("Повтор", selection: $dayRepeat) {
+                    ForEach(self.dayOfWeek, id: \.self){
+                        Text($0)
+                    }
+                }
+//                TextField("Повтор", text: $dayRepeat)
+//                    .keyboardType(.numberPad)
             }
             .navigationTitle("Добавить")
             .navigationBarItems(trailing: Button("Сохранить"){
-                let item = AlarmItems(name: self.name, date: self.date, time: self.time, type: self.type)
+                let item = AlarmItems(name: self.name, dayRepeat: self.dayRepeat, time: self.time, type: self.type, status: self.status)
                 self.alarms.items.append(item)
                 self.presentationMode.wrappedValue.dismiss()
             })
